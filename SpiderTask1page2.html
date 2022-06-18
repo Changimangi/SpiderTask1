@@ -1,0 +1,435 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SpiderTask1page2.css">
+    <title>Hangman</title>
+</head>
+<body onload="beginningforthis()">
+    <p id="heading">Hangman</p>
+    <p id="displayplayer"></p>
+    
+    
+    <div class="flexdisplay">
+        <div class="innerflex">
+            <div id="letters"></div>
+        <form>
+            <input type="text" id="testinput">
+            </form>
+    <div id="virtualKeyboard">
+        <div class="set">
+            <div class="q" onclick="vkvalues('q')">q</div>
+            <div class="w" onclick="vkvalues('w')">w</div>
+            <div class="e" onclick="vkvalues('e')">e</div>
+            <div class="r" onclick="vkvalues('r')">r</div>
+            <div class="t" onclick="vkvalues('t')">t</div>
+            <div class="y" onclick="vkvalues('y')">y</div>
+            <div class="u" onclick="vkvalues('u')">u</div>
+            <div class="i" onclick="vkvalues('i')">i</div>
+            <div class="o" onclick="vkvalues('o')">o</div>
+            <div class="p" onclick="vkvalues('p')">p</div>
+        </div>
+        <div class="set">
+            <div class="a" onclick="vkvalues('a')">a</div>
+            <div class="s" onclick="vkvalues('s')">s</div>
+            <div class="d" onclick="vkvalues('d')">d</div>
+            <div class="f" onclick="vkvalues('f')">f</div>
+            <div class="g" onclick="vkvalues('g')">g</div>
+            <div class="h" onclick="vkvalues('h')">h</div>
+            <div class="j" onclick="vkvalues('j')">j</div>
+            <div class="k" onclick="vkvalues('k')">k</div>
+            <div class="l" onclick="vkvalues('l')">l</div>
+        </div>
+        <div class="set">
+            <div class="enter" >Enter</div>
+            <div class="z" onclick="vkvalues('z')">z</div>
+            <div class="x" onclick="vkvalues('x')">x</div>
+            <div class="c" onclick="vkvalues('c')">c</div>
+            <div class="v" onclick="vkvalues('v')">v</div>
+            <div class="b" onclick="vkvalues('b')">b</div>
+            <div class="n" onclick="vkvalues('n')">n</div>
+            <div class="m" onclick="vkvalues('m')">m</div>
+            <div class="backspace" onclick="backspace()" >X</div>
+        </div>
+    </div>
+</div>
+    <div class="hangedman">
+        <div class="forflex">
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+            <div class="part"></div>
+        </div>
+    </div>
+    </div>
+    <div class="overall">
+    <div class="result">
+        <p id="result"></p>
+        <p id="score"></p>
+        <div class="buttons">
+        <button class="leaderboard">Leader board</button>
+    </div>
+        <p class="final"></p>
+        
+    </div>
+</div>
+    
+
+    <script>
+        var fortargetstatus ;
+        if(localStorage.getItem("targetstatus")==null){
+            fortargetstatus = " ";
+        }
+        else{
+            fortargetstatus = localStorage.getItem("targetstatus");
+        }
+        var done = 1; 
+        var wrongs = 0;
+        const y = document.getElementsByClassName("part");
+        const keys = document.getElementById("testinput");
+        var sample ;
+        var n ;
+        if(localStorage.getItem("hangedmanstatus")==undefined){
+            n = Number(localStorage.getItem("tobeginwith"));
+        }
+        var v = 0;
+        var flag = 0; 
+        const backspaceaudio = new Audio();
+        backspaceaudio.src = "alertsound.mp3";
+        var turn;
+        var scores = 0; 
+
+        function beginningforthis(){
+            initialiser();
+            settingupstatus();
+            
+        }
+
+        function settingupstatus(){
+            if(checkforsavingstatus("scorestatus")=="yes"){
+                scores = Number(localStorage.getItem("scorestatus"))
+                wrongs = Number(localStorage.getItem("wrongs"));
+            }
+            if(checkforsavingstatus("targetstatus")=="yes"){
+                for(let i=0; i<localStorage.getItem("targetstatus").length; i++){
+                    let q = localStorage.getItem("targetstatus").charAt(i);
+                    for(let j = 0; j<sample.length; j++){
+                        if(sample.charAt(j)==q){
+                            document.getElementsByClassName("target")[j].innerHTML = q;
+                        }
+                    }
+                    
+                }
+            }
+            if(checkforsavingstatus("hangedmanstatus")=="yes"){
+                n=Number(localStorage.getItem("hangedmanstatus"));
+                for(let y=0; y<=n;y++ ){
+                    document.getElementsByClassName("part")[y].style.opacity = "1";
+                }
+                n++;
+            }
+        }
+        
+
+        function checkforsavingstatus(string){
+            let flag = 0; 
+            for(let i=0; i<localStorage.length; i++){
+                if(localStorage.key(i)==string){
+                    flag = 1; 
+                    break;
+                }
+            }
+            if(flag == 1){
+                return "yes";
+            }
+            else{
+                return "no";
+            }
+        }
+
+
+        function initialiser(){
+            let b = localStorage.getItem("n");
+            console.log(b);
+            if (b=="1"){
+                document.getElementById("displayplayer").innerHTML = "It's your turn player2";
+                sample = localStorage.getItem("player1word").toLowerCase();
+                turn = 1;
+            }
+            else{
+                document.getElementById("displayplayer").innerHTML = "It's your turn player1";
+                sample = localStorage.getItem("player2word").toLowerCase();
+                turn = 2;
+            }
+            inputboxes(sample);
+            
+        }
+        document.getElementsByClassName("leaderboard")[0].addEventListener("click",function(){
+            location.href = "SpiderTask1page3.html";
+        })
+
+        
+        document.getElementsByClassName("enter")[0].addEventListener("click", main);
+
+        function main(){
+            let ans = " ";
+            let s = keys.value;
+            if (sample.includes(s)){
+                for(let i=0; i<sample.length; i++){
+                    if(sample.charAt(i)==s){
+                        document.getElementsByClassName("target")[i].innerHTML = s;
+                        fortargetstatus+=s;
+                        localStorage.setItem("targetstatus",fortargetstatus);
+                        
+                    
+                    }
+                }
+            }
+            let p=0;
+            for(let i=0; i<sample.length; i++){
+            if(sample.charAt(i)==document.getElementsByClassName("target")[i].innerHTML){
+                p+=1;
+            }
+            }
+            scores = p/sample.length *100;
+            localStorage.setItem("scorestatus",scores);
+            var str = " "; 
+            for(let i=0; i<sample.length; i++){
+                str=document.getElementsByClassName("target")[i].innerHTML;
+                if(str!=sample[i]){
+                    flag=1;
+                }
+            }
+
+            if(flag==0){
+                resultfor(turn,"won");
+            }
+            str=" ";
+            flag=0;
+
+            if(!(sample.includes(s))){
+                wrongs+=1;
+                localStorage.setItem("wrongs",wrongs);
+                const result = displayhangman();
+                if(result == "you lost"){
+                    resultfor(turn,"lost");
+                }  
+            }
+            
+            
+        
+        
+        }
+
+        document.addEventListener("keydown",function(e){
+            var name = e.key;
+            e.preventDefault();
+            if(name=="Enter"){
+                main();
+            }
+            else if(name=="Backspace"){
+                backspace();
+            }
+            else{
+                vkvalues(name);
+            }
+        })
+        
+        function backspace(){
+            document.getElementById("testinput").value="";
+            
+        }
+
+        function vkvalues(s){
+            if(document.getElementById("testinput").value!=""){
+                backspaceaudio.play();
+            }
+            else{
+                document.getElementById("testinput").value = s;
+            }
+        }
+
+        function inputboxes(s){
+            for(let i=0; i<s.length; i++){
+                newele = document.createElement("p");
+                newele.setAttribute("class","target");
+                place = document.getElementById("letters")
+                place.appendChild(newele);
+            }
+        }
+
+        function displayhangman(){
+            
+            if(n<13){
+                localStorage.setItem("hangedmanstatus",n);
+                y[n].style.opacity="1";
+                n++;
+                str=" ";
+                return "displayed";
+            }
+            else{
+                n=0;
+                str=" ";
+                return "you lost";
+            }
+            
+        }
+        function checkinginlocal(name){
+            flag=0;
+            for(let i =0 ; i<localStorage.length; i++){
+                if(localStorage.key(i)==name+"scores"){
+                    return "yes";
+                }
+            }
+            return "no";
+        }
+        function removelocalstorageitems(){
+            localStorage.removeItem("targetstatus");
+            localStorage.removeItem("scorestatus");
+            localStorage.removeItem("hangedmanstatus");
+        }
+        async function resultfor(t,res){
+            
+            if(t==1){
+                scores = scores-wrongs*1;
+                if(scores<0){
+                    scores=0;
+                }
+                localStorage.setItem("scorestatus",scores);
+                let k = checkinginlocal(localStorage.getItem("player2"));
+                localStorage.setItem("checkingsc"+localStorage.getItem("player2"),scores);
+                console.log(localStorage.getItem("checkingsc"+localStorage.getItem("player2")));
+                if(k=="yes"){
+                    if(Number(localStorage.getItem(localStorage.getItem("player2")+"scores"))<scores){
+                        localStorage.setItem(localStorage.getItem("player2")+"scores",scores);
+                    }
+                }
+                else{
+                    localStorage.setItem(localStorage.getItem("player2")+"scores",scores);
+
+                }
+                
+                localStorage.setItem("n","2");
+                document.getElementById("result").innerHTML = "You "+res;
+                document.getElementById("score").innerHTML = "Score : " +  scores;
+                animation1();
+                let promise3 = new Promise(function(resolve,reject){
+                    setTimeout(function(){resolve("nowok")},6000);
+                })
+                let three = await promise3;
+                scores=0; 
+                localStorage.setItem("homepage","no");
+                document.location.reload();
+                localStorage.removeItem("targetstatus");
+                localStorage.removeItem("scorestatus");
+            localStorage.removeItem("hangedmanstatus");
+            localStorage.setItem("wrongs","0");
+            localStorage.removeItem("player1word");
+            }
+            else{
+                
+                localStorage.setItem("homepage","yes");
+                localStorage.removeItem("targetstatus");
+                localStorage.removeItem("scorestatus");
+            localStorage.removeItem("hangedmanstatus");
+            localStorage.removeItem("wrongs");
+                scores = scores-wrongs*1;
+                if(scores<0){
+                    scores=0;
+                }
+                
+                let r = checkinginlocal(localStorage.getItem("player1"));
+                localStorage.setItem("checkingsc"+localStorage.getItem("player1"),scores);
+                console.log(localStorage.getItem("checkingsc"+localStorage.getItem("player1")));
+                console.log(localStorage.getItem("checkingsc"+localStorage.getItem("player2")));
+                if(r=="yes"){
+                    if(Number(localStorage.getItem(localStorage.getItem("player1")+"scores"))<scores){
+                        localStorage.setItem(localStorage.getItem("player1")+"scores",scores);
+                    }
+                }
+                else{
+                    localStorage.setItem(localStorage.getItem("player1")+"scores",scores);
+
+                }
+                localStorage.setItem("n","1");
+                
+                document.getElementById("result").innerHTML = "You "+res;
+                document.getElementById("score").innerHTML = scores;
+                document.getElementsByClassName("leaderboard")[0].style.display="inline-block";
+                localStorage.removeItem("player2word");
+                if(Number(localStorage.getItem("checkingsc"+localStorage.getItem("player1")))>Number(localStorage.getItem("checkingsc"+localStorage.getItem("player2")))){
+                    document.getElementsByClassName("final")[0].innerHTML = localStorage.getItem("player1")+" takes the game";
+                }
+                else if(Number(localStorage.getItem("checkingsc"+localStorage.getItem("player1")))==Number(localStorage.getItem("checkingsc"+localStorage.getItem("player2")))){
+                    document.getElementsByClassName("final")[0].innerHTML = "It's a draw";
+                }
+                else{
+                    document.getElementsByClassName("final")[0].innerHTML = localStorage.getItem("player2")+" takes the game";
+                }
+                animation2();
+                done = 0;
+                
+            }
+        }
+        async function animation1(){
+            setInterval(down,1);
+            let g = -40; 
+            async function down(){
+                if(g<=30){
+                    g++;
+                    document.getElementsByClassName("result")[0].style.top=g+"vh";
+                }
+                else{
+                    
+                    let promise2 = new Promise(function(resolve,reject){
+                        setTimeout(function(){resolve("fine")},5000);
+                    })
+                    let two = await promise2;
+                    let promise1 = new Promise(function(resolve,reject){
+                        setInterval(dissappear,1);
+                        let o = 1;
+                        function dissappear(){
+                            if(o>=0){
+                                o-=0.1;
+                                document.getElementsByClassName("result")[0].style.opacity = o;
+                            }
+                            else{
+                                document.getElementsByClassName("result")[0].style.top="-40vh";
+                                resolve("ok");
+                            }
+                        }
+
+                    })
+                    let one = await promise1;
+                    clearInterval(down);
+                    return "allok";
+                }
+            }
+            
+        }
+        function animation2(){
+            setInterval(down,1);
+            let g = -40; 
+            function down(){
+                if(g<=30){
+                    g++;
+                    document.getElementsByClassName("result")[0].style.top=g+"vh";
+                }
+                else{
+                    clearInterval(down);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

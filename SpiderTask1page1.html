@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SpiderTask1page1.css">
+    <link rel="Stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOFuypir5KWcsTJl0cEoq_yYr9HGNGG-P8OQ&usqp=CAU">
+    <title>Spider induction task1 page1</title>
+</head>
+<body onload = "beginning()">
+    <div class="menu">
+        <i class="material-icons">menu</i>
+        <div class="dropdown">
+        <ul onclick="location.href='SpiderTask1page3.html'">Leaderboard</ul>
+    </div>
+    </div>
+    <h1>Welcome!!</h1>
+    <h3>Enter your the following details</h3>
+    
+    <br>
+    <form  id="form1" >
+    <div class="ele1">
+        <label for="name1">Player 1</label><br>
+        <input type="text" id="playername1" name="name1" required><br><br>
+        <label for="word1">Word to contest</label><br>
+        <div class="choosingsector1">
+            <button class="choose1">Choose word</button>
+        <div class="dropdowncontent1">
+        <p class="word1" onclick="settingtargetwords(1,0)"></p>
+        <p class="word1" onclick="settingtargetwords(1,1)"></p>
+        <p class="word1" onclick="settingtargetwords(1,2)"></p>
+    </div>
+    </div>
+    </div>
+    <div class="ele2">
+        <label for="name2">Player 2</label><br>
+        <input type="text" id="playername2" name="name2" required><br><br>
+        <label for="word2">Word to contest</label><br>
+        <div class="choosingsector2">
+            <button class="choose2" >Choose word</button>
+        <div class="dropdowncontent2">
+        <p class="word2" onclick="settingtargetwords(2,0)"></p>
+        <p class="word2" onclick="settingtargetwords(2,1)"></p>
+        <p class="word2" onclick="settingtargetwords(2,2)"></p>
+    </div>
+    </div>
+    </div>
+    </form>
+    <div class="icon"><div class="starticon"><div class="triangle"></div></div></div>
+
+    <script>
+        var list;
+        let word1 = document.getElementsByClassName("word1");
+        let word2 = document.getElementsByClassName("word2");
+        
+        const url = "https://random-word-api.herokuapp.com/word?number=6";
+        setrandomword();
+        function setrandomword(){
+            fetch(url)
+            .then(data => data.json())
+            .then(item =>{
+                for(let i =0; i<3; i++){
+                    let k = item[i];
+                    document.getElementsByClassName("word1")[i].innerHTML = k;
+                }
+                for(let i =3; i<6; i++){
+                    let k = item[i];
+                    document.getElementsByClassName("word2")[i-3].innerHTML = k;
+                }
+            })
+        }
+
+        document.getElementsByClassName("choose1")[0].addEventListener("click",function(e){
+            e.preventDefault();
+            let q = document.getElementsByClassName("dropdowncontent1")[0];
+            q.style.display = "block";
+            q.style.position = "absolute";
+            q.style.zIndex = "1";
+
+        })
+
+        document.getElementsByClassName("choose2")[0].addEventListener("click",function(e){
+            e.preventDefault();
+            let q = document.getElementsByClassName("dropdowncontent2")[0];
+            q.style.display = "block";
+            q.style.position = "absolute";
+            q.style.zIndex = "1";
+
+        })
+
+        function beginning(){
+            //localStorage.clear();
+            if(localStorage.getItem("homepage")==null){
+                localStorage.setItem("homepage","yes");
+            }
+            if(localStorage.getItem("homepage")!="yes"){
+                let newpage = "SpiderTask1page2.html?player1="+localStorage.getItem("player1")+"&"+"player2="+localStorage.getItem("player2");
+                location.href = newpage;
+            }
+        }
+
+        function settingtargetwords(n,i){
+            localStorage.setItem("player"+n+"word",document.getElementsByClassName("word"+n)[i].innerHTML);
+            document.getElementsByClassName("dropdowncontent"+n)[0].style.display = "none";
+            document.getElementsByClassName("choose"+n)[0].innerHTML = "chosen";
+        }
+
+       
+        
+        document.getElementsByClassName("triangle")[0].addEventListener("click",function(e){
+            e.preventDefault();
+            
+            
+            localStorage.setItem("tobeginwith","0");
+            localStorage.setItem("homepage","no");
+            localStorage.setItem("n",1);
+            
+            localStorage.setItem("player1",document.getElementById("playername1").value);
+            localStorage.setItem("player2",document.getElementById("playername2").value);
+            player1 = document.getElementById("playername1").value;
+            player2 = document.getElementById("playername2").value;
+            var a = document.getElementById("playername1").value;
+        var b = document.getElementById("playername2").value;
+        var c = localStorage.getItem("player1word");
+        var d = localStorage.getItem("player2word");
+            if(a==null || b==null || c==null || d==null){
+                
+                alert("fill all the fields");
+            }
+            else{
+            let newpage = "SpiderTask1page2.html?player1="+player1+"&"+"player2="+player2;
+            location.href = newpage;}
+        })
+        
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+html{
+    background-image:linear-gradient(to right, rgb(0, 136, 104),rgb(0, 43, 151),rgb(56, 0, 146));
+    color:white;
+}
+#heading{
+    text-align: center;
+    font-size: 7vmin;
+    border-radius: 50%;
+    padding:20px;
+}
+#displayplayer{
+    font-size: 3vmin;
+    text-align: center;
+}
+#letters{
+    display:flex;
+    justify-content: center;
+}
+.target{
+    width:3vw;
+    font-size:3vmin;
+    margin-right:5px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.innerflex{
+    margin-top:10vh;
+}
+form{
+    display: flex;
+    justify-content: center;
+}
+#testinput{
+    width:3vw;
+    height:4vh;
+    text-align: center;
+}
+.set{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.flexdisplay{
+    width:100%;
+    display:flex;
+    justify-content: center;
+}
+.enter,.backspace{
+    border:1px solid rgb(90, 1, 82);
+    padding:10px;
+    font-size: 3vmin;
+    width:4vw;
+    height: 4vh;
+    text-align: center;
+    margin:2px;
+    background-color: rgb(90, 1, 82);
+    cursor:pointer;
+}
+.set div:not(.enter):not(.backspace){
+    border:1px solid rgb(90, 1, 82);
+    padding:10px;
+    font-size: 3vmin;
+    width:2vw;
+    height: 4vh;
+    text-align: center;
+    margin:2px;
+    background-color: rgb(90, 1, 82);
+    cursor:pointer;
+}
+
+.backspace{
+    font-family:Arial, Helvetica, sans-serif;
+}
+.hangedman{
+    margin-top: 6vh;
+}
+.part{
+    display:block;
+    opacity:0;
+}
+.hangedman .forflex div:nth-child(1){
+    height:4vh;
+    width: 25vw;
+    background-color: rgb(39, 39, 39);
+    margin-left:10vw;
+    margin-top: 40vh;
+}
+.hangedman .forflex div:nth-child(2){
+    height:40vh;
+    width: 1vw;
+    background-color: rgb(86, 86, 86);
+    margin-left:33vw;
+    margin-top:-44vh;
+}
+.hangedman .forflex div:nth-child(3){
+    height:2vh;
+    width: 25vw;
+    background-color: rgb(86, 86, 86);
+    margin-left: 10vw;
+    margin-top:-36vh;
+}
+.hangedman .forflex div:nth-child(4){
+    height:6vh;
+    width:0.5vw;
+    background-color: black;
+    margin-left: 20vw;
+}
+.hangedman .forflex div:nth-child(5){
+    height:10vh;
+    width: 5vw;
+    border:3px solid rgb(233, 200, 79);
+    background-color: rgb(233, 200, 79);
+    border-radius: 100%;
+    margin-left: 17.5vw;
+}
+.hangedman .forflex div:nth-child(6){
+    height:1vh;
+    width:0.5vw;
+    background-color: black;
+    border-radius: 100%;
+    margin-left: 19vw;
+    margin-top: -7vh;
+}
+.hangedman .forflex div:nth-child(7){
+    height:1vh;
+    width:0.5vw;
+    background-color: black;
+    border-radius: 100%;
+    margin-left: 21vw;
+    margin-top: -1vh;
+}
+.hangedman .forflex div:nth-child(8){
+    height:0.5vh;
+    width:2vw;
+    background-color: black;
+    margin-left: 19.3vw;
+    margin-top: 2vh;
+}
+.hangedman .forflex div:nth-child(9){
+    height:8vh;
+    width:0.2vw;
+    background-color: black;
+    margin-left: 20.2vw;
+    margin-top: 3.5vh;
+    
+}
+.hangedman .forflex div:nth-child(10){
+    height:6vh;
+    width:0.2vw;
+    background-color: black;
+    transform: rotate(45deg);
+    margin-left: 19.1vw;
+    margin-top: -8vh;
+}
+.hangedman .forflex div:nth-child(11){
+    height:6vh;
+    width:0.2vw;
+    background-color: black;
+    transform: rotate(-45deg);
+    margin-left: 21.2vw;
+    margin-top: -6vh;
+}
+.hangedman .forflex div:nth-child(12){
+    height:6vh;
+    width:0.2vw;
+    background-color: black;
+    transform: rotate(45deg);
+    margin-left: 19.1vw;
+    margin-top: 1vh;
+}
+.hangedman .forflex div:nth-child(13){
+    height:6vh;
+    width:0.2vw;
+    background-color: black;
+    transform: rotate(-45deg);
+    margin-left: 21.2vw;
+    margin-top: -6vh;
+}
+.overall{
+    display:flex;
+    justify-content: center;
+}
+.homepage,.leaderboard{
+    display:none;
+}
+.result{
+    width:40vw;
+    height:40vh;
+    background-color: blueviolet;
+    position:absolute;
+    z-index:1;
+    top:-40vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+.buttons{
+    display:flex;
+    justify-content: center;
+}
+.leaderboard{
+    
+    font-size: 2vmin;
+    background-color: aquamarine;
+    padding:5px;
+    border:1px solid white;
+    margin:5px;
+
+}
+#score,#result,.final{
+    font-size: 4vmin;
+}
+@media only screen and (max-width:850px){
+    .flexdisplay{
+        flex-direction: column;
+        align-items: center;
+    }
+    button{
+        width:100%;
+    }
+    
+}
+
+
+
+
+
+
+
